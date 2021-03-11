@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+    <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
+    <CourseAdd v-model="course" @add-course="addCourse"></CourseAdd>
     <CourseList :courses="courses"></CourseList>
   </div>
 </template>
@@ -8,11 +9,13 @@
 <script>
 // @ is an alias to /src
 import CourseList from '@/components/CourseList.vue'
+import CourseAdd from '@/components/CourseAdd.vue'
 import { getCourses } from '@/api/course'
 export default {
   name: 'Home',
   components: {
-    CourseList
+    CourseList,
+    CourseAdd
   },
   data() {
     return {
@@ -20,6 +23,24 @@ export default {
       course: '',
       courses: [],
     }
+  },
+  methods: {
+    addCourse() {
+        if (this.course) {
+          // 添加course到数组
+          this.courses.push({ name: this.course })
+          this.course = ''
+
+          // 显示提示信息
+          // this.show = true
+          this.$refs.msgSuccess.toggle()
+        } else {
+          // 显示错误信息
+          // this.showWarn = true
+          this.$refs.msgWarning.toggle()
+        }
+
+      },
   },
   async created() {
         // 组件实例已创建，由于未挂载，dom不存在
