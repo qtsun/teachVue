@@ -1,9 +1,9 @@
 <template>
     <div>
         <p v-if="courses.length == 0">没有任何课程信息</p>
-        <div class="course-list" v-else>
+        <div :class="['course-list',$style.red]" v-else>
             <div v-for="c in courses" :key="c.name"
-            :style="{backgroundColor: (selectedCourse === c ? '#ddd' : 'transparent')}"
+            :class="{[$style.active]:selectedCourse === c}"
             @click="selectedCourse = c">
             {{ c.name }} - {{ c.price | currency('￥') }}
             </div>
@@ -34,6 +34,12 @@
     }
 </script>
 
-<style scoped>
+<style module>
+.active{
+  background-color: #ddd;
+}
 
+.red{
+  color: #f00;
+}
 </style>

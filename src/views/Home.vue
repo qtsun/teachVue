@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
+    <img alt="Vue logo" :src="`${publicPath}assets/logo.png`">
     <CourseAdd v-model="course" @add-course="addCourse"></CourseAdd>
     <CourseList :courses="courses"></CourseList>
   </div>
@@ -22,6 +23,7 @@ export default {
       title: '购物车',
       course: '',
       courses: [],
+      publicPath: process.env.BASE_URL
     }
   },
   methods: {
