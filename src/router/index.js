@@ -41,6 +41,16 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Admin.vue'),
     meta:{
       auth:true
+    },
+    //路由独享守卫
+    beforeEnter: (to, from, next) => {
+      //判断路由是否需要守卫
+      //meta数据
+      if(window.isLogin){
+        next()
+      }else{
+        next('/login?redirect='+to.fullPath)
+      }
     }
   },
   {
@@ -60,17 +70,17 @@ const router = new VueRouter({
 })
 
 // 全局守卫
-router.beforeEach((to, from, next)=>{
-  // 判断路由是否需要守卫
-  if(to.meta.auth){
-    if(window.isLogin){
-      next()
-    }else{
-      next('/login?redirect='+to.fullPath)
-    }
-  }else{
-    next()
-  }
-})
+// router.beforeEach((to, from, next)=>{
+//   // 判断路由是否需要守卫
+//   if(to.meta.auth){
+//     if(window.isLogin){
+//       next()
+//     }else{
+//       next('/login?redirect='+to.fullPath)
+//     }
+//   }else{
+//     next()
+//   }
+// })
 
 export default router
