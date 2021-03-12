@@ -4,9 +4,12 @@
         <div :class="['course-list',$style.red]" v-else>
             <div v-for="c in courses" :key="c.name"
             :class="{[$style.active]:selectedCourse === c}"
-            @click="selectedCourse = c">
-            <router-link :to='`/admin/course/${c.name}`'>
-              {{ c.name }} - {{ c.price | currency('￥') }}</router-link>
+            @click="onClick(c)">
+            <!-- @click="selectedCourse = c;$router.push(`/admin/course/${c.name}`)"> -->
+            <!-- <router-link :to='`/admin/course/${c.name}`'>
+              {{ c.name }} - {{ c.price | currency('￥') }}
+            </router-link> -->
+            {{ c.name }} - {{ c.price | currency('￥') }}
             </div>
         </div>
     </div>
@@ -31,7 +34,17 @@
         currency(value, symbol = '￥') {
           return symbol + value
         }
-      }
+      },
+      methods: {
+        onClick(c) {
+          this.selectedCourse = c;
+          // this.$router.push(`/admin/course/${c.name}`)
+          this.$router.push({
+            name:'detail',
+            params:{name:c.name}
+          })
+        }
+      },
     }
 </script>
 
