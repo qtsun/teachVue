@@ -4,6 +4,8 @@
     <img alt="Vue logo" :src="`${publicPath}assets/logo.png`">
     <CourseAdd v-model="course" @add-course="addCourse"></CourseAdd>
     <CourseList :courses="courses"></CourseList>
+    <!-- 嵌套内容出口 -->
+    <router-view></router-view>
   </div>
 </template>
 
