@@ -11,7 +11,7 @@ const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
 
   return originalPush.call(this, location).catch(err => err)
-  
+
 }
 
 const routes = [
@@ -28,12 +28,20 @@ const routes = [
     ]
   },
   {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/Login.vue')
+  },
+  {
     path: '/admin',
     name: 'admin',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Admin.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Admin.vue'),
+    meta:{
+      auth:true
+    }
   },
   {
     path: '/course/:name',
@@ -49,6 +57,20 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+// 全局守卫
+router.beforeEach((to, from, next)=>{
+  // 判断路由是否需要守卫
+  if(to.meta.auth){
+    if(window.isLogin){
+      next()
+    }else{
+      next('/login?redirect='+to.fullPath)
+    }
+  }else{
+    next()
+  }
 })
 
 export default router
