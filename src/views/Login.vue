@@ -6,21 +6,36 @@
 </template>
 
 <script>
+import {mapState, mapActions} from 'vuex'
     export default {
         methods: {
             login() {
-                window.isLogin = true
-                this.$router.push(this.$route.query.redirect)
+                // window.isLogin = true
+                //mutation变更状态
+                // this.$store.commit('user/login')
+                //派发动作出发actions
+                // this.$store.dispatch('user/login', 'admin').then(()=>{
+                this['user/login']('admin').then(()=>{
+                    this.$router.push(this.$route.query.redirect)
+                }).catch(()=>{
+                    alert('用户名或密码错误，请重试')
+                })
             },
             logout() {
-                window.isLogin = false
+                console.log('sss')
+                // window.isLogin = false
+                alert('sssssssssss')
+                this.$store.commit("user/logout")
+                // this["user/logout"]
                 this.$router.push('/')
-            }
+            },
+            ...mapActions(['user/login','user/logout'])
         },
         computed: {
-            isLogin() {
-                return window.isLogin
-            }
+            // isLogin() {
+            //     return this.$store.state.user.isLogin
+            // }
+            ...mapState('user',['isLogin'])
         },
     }
 </script>
